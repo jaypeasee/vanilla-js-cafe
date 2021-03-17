@@ -10,6 +10,7 @@ let reservations = []
 
 window.addEventListener('load', pullReservations)
 reserveBtn.addEventListener('click', makeReservation)
+allReservations.addEventListener('click', handleReservationsClick)
 
 function pullReservations() {
   getReservations()
@@ -31,6 +32,7 @@ function displayReservations() {
         <p>${resy.date}</p>
         <p>${resy.time}</p>
         <p>${resy.number}</p>
+        <button class="cancel-btn">X</button>
       </section>`
     )
   })
@@ -64,6 +66,31 @@ function postReservation(reservation) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(reservation)
+  })
+    .then(response => response.json())
+}
+
+function handleReservationsClick(event) {
+  if (event.target.className === "cancel-btn") {
+    cancelReservation()
+  }
+}
+
+function cancelReservation() {
+  reservationId = event.target.closest('.reservation-card').dataset.id
+  deleteReservation(reservationId)
+    .then(() => reservations = reservations.filter(resy => {
+      return resy.id !== parseInt(reservationId)
+    }))
+    .then(displayReservations)
+}
+
+function deleteReservation(reservationId) {
+  return fetch(`http://localhost:3001/api/v1/reservations/${reservationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
     .then(response => response.json())
 }
