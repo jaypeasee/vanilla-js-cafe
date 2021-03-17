@@ -1,0 +1,16 @@
+.all-reservations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.reservation-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px black solid;
+  padding: 1%;
+  margin: 2%;
+  width: 22%;
+  background-color: whitesmoke;
+}
